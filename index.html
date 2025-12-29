@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tools including Age Calculator, Word Counter, Percentage Calculator, Case Converter, and Image Resizer. All tools are worldwide accessible, mobile-friendly, and easy to use.">
+    <title>Free Online Tools Hub – Age, Word, Percentage & More</title>
+    <style>
+        body {font-family: Arial, sans-serif; background:#f2f2f2; margin:0; padding:0;}
+        header {background:#4CAF50; color:white; text-align:center; padding:20px;}
+        nav {display:flex; justify-content:center; background:#333; flex-wrap: wrap;}
+        nav button {color:white; background:#333; border:none; padding:12px 20px; margin:2px; cursor:pointer; font-size:16px; transition: background 0.3s;}
+        nav button:hover {background:#555;}
+        nav button.active {background:#4CAF50; color:white;} /* Highlighted active button */
+        section {display:none; padding:20px; max-width:400px; margin:20px auto; background:white; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.1);}
+        input, button, textarea {width:100%; padding:10px; margin:8px 0; border-radius:5px; border:1px solid #ccc;}
+        button {background:#4CAF50; color:white; border:none; cursor:pointer; font-weight:bold;}
+        button:hover {background:#45a049;}
+        .result {margin-top:15px; font-weight:bold; color:#333;}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Free Online Tools Hub</h1>
+</header>
+
+<nav>
+    <button onclick="showTool('age', this)">Age Calculator</button>
+    <button onclick="showTool('word', this)">Word Counter</button>
+    <button onclick="showTool('percent', this)">Percentage Calculator</button>
+    <button onclick="showTool('case', this)">Case Converter</button>
+    <button onclick="showTool('image', this)">Image Resizer</button>
+</nav>
+
+<!-- Age Calculator -->
+<section id="age">
+    <h2>Age Calculator</h2>
+    <label for="dob">Enter Your Date of Birth:</label>
+    <input type="date" id="dob">
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div class="result" id="ageResult"></div>
+</section>
+
+<!-- Word Counter -->
+<section id="word">
+    <h2>Word Counter</h2>
+    <textarea id="textInput" placeholder="Paste your text here..."></textarea>
+    <button onclick="countWords()">Count Words</button>
+    <div class="result" id="wordResult"></div>
+</section>
+
+<!-- Percentage Calculator -->
+<section id="percent">
+    <h2>Percentage Calculator</h2>
+    <input type="number" id="obtained" placeholder="Obtained Marks">
+    <input type="number" id="total" placeholder="Total Marks">
+    <button onclick="calculatePercentage()">Calculate Percentage</button>
+    <div class="result" id="percentResult"></div>
+</section>
+
+<!-- Case Converter -->
+<section id="case">
+    <h2>Case Converter</h2>
+    <textarea id="caseInput" placeholder="Type text here..."></textarea>
+    <button onclick="toUpperCaseFunc()">UPPERCASE</button>
+    <button onclick="toLowerCaseFunc()">lowercase</button>
+    <button onclick="capitalizeFirstLetter()">Capitalize First Letter</button>
+    <button onclick="capitalizeEachWord()">Capitalize Each Word</button>
+    <button onclick="toggleCaseFunc()">Toggle Case</button>
+    <div class="result" id="caseResult"></div>
+</section>
+
+<!-- Image Resizer (Width in px) -->
+<section id="image">
+    <h2>Image Resizer</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <input type="number" id="imageWidth" placeholder="Width in pixels">
+    <button onclick="resizeImage()">Resize Image</button>
+    <canvas id="canvas" style="margin-top:15px; max-width:100%;"></canvas>
+    <button id="downloadBtn" style="display:none; margin-top:10px;" onclick="downloadImage()">Download Resized Image</button>
+</section>
+
+<script>
+function showTool(toolId, btn){
+    // Hide all sections
+    document.querySelectorAll('section').forEach(s => s.style.display='none');
+    document.getElementById(toolId).style.display='block';
+    
+    // Remove active class from all buttons
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    
+    // Add active class to clicked button
+    if(btn) btn.classList.add('active');
+}
+
+// --- Age Calculator ---
+function calculateAge(){
+    const dobInput = document.getElementById('dob').value;
+    if(!dobInput){alert("Please select your date of birth"); return;}
+    const dob = new Date(dobInput);
+    const today = new Date();
+    let years = today.getFullYear() - dob.getFullYear();
+    let months = today.getMonth() - dob.getMonth();
+    let days = today.getDate() - dob.getDate();
+    if(days<0){ months--; days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();}
+    if(months<0){ years--; months+=12;}
+    document.getElementById('ageResult').innerText=`You are ${years} years, ${months} months, and ${days} days old.`;
+}
+
+// --- Word Counter ---
+function countWords(){
+    const text = document.getElementById('textInput').value.trim();
+    if(!text){document.getElementById('wordResult').innerText="No text entered"; return;}
+    const words = text.split(/\s+/).length;
+    document.getElementById('wordResult').innerText=`Word count: ${words}`;
+}
+
+// --- Percentage Calculator ---
+function calculatePercentage(){
+    const obtained = parseFloat(document.getElementById('obtained').value);
+    const total = parseFloat(document.getElementById('total').value);
+    if(isNaN(obtained) || isNaN(total) || total<=0){alert("Enter valid numbers"); return;}
+    const percent = (obtained/total*100).toFixed(2);
+    document.getElementById('percentResult').innerText=`Percentage: ${percent}%`;
+}
+
+// --- Case Converter ---
+function toUpperCaseFunc(){
+    const text = document.getElementById('caseInput').value;
+    document.getElementById('caseResult').innerText = text.toUpperCase();
+}
+
+function toLowerCaseFunc(){
+    const text = document.getElementById('caseInput').value;
+    document.getElementById('caseResult').innerText = text.toLowerCase();
+}
+
+function capitalizeFirstLetter(){
+    const text = document.getElementById('caseInput').value;
+    if(!text) return;
+    const result = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    document.getElementById('caseResult').innerText = result;
+}
+
+function capitalizeEachWord(){
+    const text = document.getElementById('caseInput').value;
+    if(!text) return;
+    const result = text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    document.getElementById('caseResult').innerText = result;
+}
+
+function toggleCaseFunc(){
+    const text = document.getElementById('caseInput').value;
+    if(!text) return;
+    let result = '';
+    for(let i=0;i<text.length;i++){
+        const ch = text[i];
+        result += (ch === ch.toUpperCase()) ? ch.toLowerCase() : ch.toUpperCase();
+    }
+    document.getElementById('caseResult').innerText = result;
+}
+
+// --- Image Resizer ---
+function resizeImage(){
+    const file = document.getElementById('imageInput').files[0];
+    const width = parseInt(document.getElementById('imageWidth').value);
+    const downloadBtn = document.getElementById('downloadBtn');
+    if(!file || !width){alert("Select image and enter width"); return;}
+    const img = new Image();
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const reader = new FileReader();
+    reader.onload = function(e){ img.src = e.target.result; }
+    img.onload = function(){
+        const scale = width / img.width;
+        canvas.width = width;
+        canvas.height = img.height * scale;
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        downloadBtn.style.display = 'block';
+    }
+    reader.readAsDataURL(file);
+}
+
+// --- Download Resized Image ---
+function downloadImage(){
+    const canvas = document.getElementById('canvas');
+    const link = document.createElement('a');
+    link.download = 'resized-image.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+// Show first tool by default and highlight its button
+window.onload = function(){
+    const firstBtn = document.querySelector('nav button');
+    showTool('age', firstBtn);
+}
+</script>
+
+</body>
+</html>
