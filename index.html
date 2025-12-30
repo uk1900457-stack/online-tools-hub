@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free online tools including Age Calculator, Word Counter, Percentage Calculator, Case Converter, and Image Resizer. All tools are worldwide accessible, mobile-friendly, and easy to use.">
-    <title>Free Online Tools Hub – Age, Word, Percentage & More</title>
+    
+    <!-- ✅ SEO Meta Tags -->
+    <title>Free Online Tools Hub – Age, Word, Percentage & Image Tools</title>
+    <meta name="description" content="Use free online tools including Age Calculator, Word Counter, Percentage Calculator, Case Converter, and Image Resizer. Mobile-friendly and easy to use.">
+    <meta name="keywords" content="online tools, age calculator, word counter, percentage calculator, case converter, image resizer, free tools, online utilities">
+
     <style>
         body {font-family: Arial, sans-serif; background:#f2f2f2; margin:0; padding:0;}
         header {background:#4CAF50; color:white; text-align:center; padding:20px;}
@@ -23,6 +27,7 @@
 
 <header>
     <h1>Free Online Tools Hub</h1>
+    <p>Age Calculator, Word Counter, Percentage Calculator, Case Converter & Image Resizer</p>
 </header>
 
 <nav>
@@ -37,7 +42,7 @@
 <section id="age">
     <h2>Age Calculator</h2>
     <label for="dob">Enter Your Date of Birth:</label>
-    <input type="date" id="dob">
+    <input type="date" id="dob" alt="Date of Birth Input">
     <button onclick="calculateAge()">Calculate Age</button>
     <div class="result" id="ageResult"></div>
 </section>
@@ -45,7 +50,7 @@
 <!-- Word Counter -->
 <section id="word">
     <h2>Word Counter</h2>
-    <textarea id="textInput" placeholder="Paste your text here..."></textarea>
+    <textarea id="textInput" placeholder="Paste your text here..." alt="Text input for word counting"></textarea>
     <button onclick="countWords()">Count Words</button>
     <div class="result" id="wordResult"></div>
 </section>
@@ -53,8 +58,8 @@
 <!-- Percentage Calculator -->
 <section id="percent">
     <h2>Percentage Calculator</h2>
-    <input type="number" id="obtained" placeholder="Obtained Marks">
-    <input type="number" id="total" placeholder="Total Marks">
+    <input type="number" id="obtained" placeholder="Obtained Marks" alt="Obtained Marks Input">
+    <input type="number" id="total" placeholder="Total Marks" alt="Total Marks Input">
     <button onclick="calculatePercentage()">Calculate Percentage</button>
     <div class="result" id="percentResult"></div>
 </section>
@@ -62,7 +67,7 @@
 <!-- Case Converter -->
 <section id="case">
     <h2>Case Converter</h2>
-    <textarea id="caseInput" placeholder="Type text here..."></textarea>
+    <textarea id="caseInput" placeholder="Type text here..." alt="Text input for case conversion"></textarea>
     <button onclick="toUpperCaseFunc()">UPPERCASE</button>
     <button onclick="toLowerCaseFunc()">lowercase</button>
     <button onclick="capitalizeFirstLetter()">Capitalize First Letter</button>
@@ -74,23 +79,18 @@
 <!-- Image Resizer (Width in px) -->
 <section id="image">
     <h2>Image Resizer</h2>
-    <input type="file" id="imageInput" accept="image/*">
-    <input type="number" id="imageWidth" placeholder="Width in pixels">
+    <input type="file" id="imageInput" accept="image/*" alt="Select image to resize">
+    <input type="number" id="imageWidth" placeholder="Width in pixels" alt="Enter width for image">
     <button onclick="resizeImage()">Resize Image</button>
-    <canvas id="canvas" style="margin-top:15px; max-width:100%;"></canvas>
+    <canvas id="canvas" style="margin-top:15px; max-width:100%;" alt="Canvas to show resized image"></canvas>
     <button id="downloadBtn" style="display:none; margin-top:10px;" onclick="downloadImage()">Download Resized Image</button>
 </section>
 
 <script>
 function showTool(toolId, btn){
-    // Hide all sections
     document.querySelectorAll('section').forEach(s => s.style.display='none');
     document.getElementById(toolId).style.display='block';
-    
-    // Remove active class from all buttons
     document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    
-    // Add active class to clicked button
     if(btn) btn.classList.add('active');
 }
 
@@ -126,38 +126,23 @@ function calculatePercentage(){
 }
 
 // --- Case Converter ---
-function toUpperCaseFunc(){
-    const text = document.getElementById('caseInput').value;
-    document.getElementById('caseResult').innerText = text.toUpperCase();
-}
-
-function toLowerCaseFunc(){
-    const text = document.getElementById('caseInput').value;
-    document.getElementById('caseResult').innerText = text.toLowerCase();
-}
-
+function toUpperCaseFunc(){ document.getElementById('caseResult').innerText = document.getElementById('caseInput').value.toUpperCase(); }
+function toLowerCaseFunc(){ document.getElementById('caseResult').innerText = document.getElementById('caseInput').value.toLowerCase(); }
 function capitalizeFirstLetter(){
     const text = document.getElementById('caseInput').value;
     if(!text) return;
-    const result = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-    document.getElementById('caseResult').innerText = result;
+    document.getElementById('caseResult').innerText = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
-
 function capitalizeEachWord(){
     const text = document.getElementById('caseInput').value;
     if(!text) return;
-    const result = text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-    document.getElementById('caseResult').innerText = result;
+    document.getElementById('caseResult').innerText = text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 }
-
 function toggleCaseFunc(){
     const text = document.getElementById('caseInput').value;
     if(!text) return;
     let result = '';
-    for(let i=0;i<text.length;i++){
-        const ch = text[i];
-        result += (ch === ch.toUpperCase()) ? ch.toLowerCase() : ch.toUpperCase();
-    }
+    for(let i=0;i<text.length;i++){ result += (text[i] === text[i].toUpperCase()) ? text[i].toLowerCase() : text[i].toUpperCase();}
     document.getElementById('caseResult').innerText = result;
 }
 
@@ -181,8 +166,6 @@ function resizeImage(){
     }
     reader.readAsDataURL(file);
 }
-
-// --- Download Resized Image ---
 function downloadImage(){
     const canvas = document.getElementById('canvas');
     const link = document.createElement('a');
@@ -191,11 +174,8 @@ function downloadImage(){
     link.click();
 }
 
-// Show first tool by default and highlight its button
-window.onload = function(){
-    const firstBtn = document.querySelector('nav button');
-    showTool('age', firstBtn);
-}
+// Show first tool by default
+window.onload = function(){ showTool('age', document.querySelector('nav button')); }
 </script>
 
 </body>
